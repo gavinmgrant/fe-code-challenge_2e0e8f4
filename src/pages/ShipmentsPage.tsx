@@ -50,7 +50,7 @@ const COLUMNS: GridColDef[] = [
 const useStyles = makeStyles({
     grid: {
         marginInline: 16,
-        height: '100%'
+        height: 'calc(100vh - 72px)'
     },
     loader: {
         margin: 'auto',
@@ -82,7 +82,7 @@ export const ShipmentsPage: React.FC = () => {
                 className={classes.grid}
                 rows={fetchShipmentsResult.shipments}
                 columns={COLUMNS}
-                pageSize={20}
+                autoPageSize
                 disableSelectionOnClick
             />
             break;
