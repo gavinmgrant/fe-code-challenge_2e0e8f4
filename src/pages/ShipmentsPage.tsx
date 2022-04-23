@@ -1,7 +1,9 @@
 import { ReactElement, useEffect, useState } from "react"
-import { Box, makeStyles, useTheme } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core"
 import { DataGrid, GridColDef } from "@material-ui/data-grid"
-import Loader from 'react-loader-spinner'
+import { LoaderItem } from "../components/LoaderItem"
+import { ErrorMessage } from "../components/ErrorMessage"
+import { LoadingResult, INITIAL_RESULT } from "../utils/grid-helpers"
 import { fetchShipments, FetchShipmentsResult } from "../data/fetch-shipments"
 
 const COLUMNS: GridColDef[] = [
@@ -51,24 +53,11 @@ const useStyles = makeStyles({
     grid: {
         marginInline: 16,
         height: 'calc(100vh - 72px)'
-    },
-    loader: {
-        margin: 'auto',
-        width: 'fit-content',
-        marginTop: 200
     }
 })
 
-type LoadingResult = {
-    status: 'LOADING'
-}
-const INITIAL_RESULT: LoadingResult = {
-    status: 'LOADING'
-}
-
 export const ShipmentsPage: React.FC = () => {
     const classes = useStyles()
-    const theme = useTheme()
 
     const [fetchShipmentsResult, setFetchShipmentsResult] = useState<FetchShipmentsResult | LoadingResult>(INITIAL_RESULT)
     useEffect(() => {
@@ -87,12 +76,10 @@ export const ShipmentsPage: React.FC = () => {
             />
             break;
         case 'LOADING':
-            component = <Box className={classes.loader}>
-                <Loader type="Grid" color={theme.palette.primary.main} />
-            </Box >
+            component = <LoaderItem />
             break
         case 'ERROR':
-            component = <p>Error</p>
+            component = <ErrorMessage />
             break
     }
 
